@@ -8,9 +8,7 @@ export default function App() {
     const theme = useTheme();
   return (
       <PaperProvider theme={theme}>
-          <View style={{backgroundColor: 'red', flex: 1}}>
               <PreLoginNavigation />
-          </View>
       </PaperProvider>
   );
 }

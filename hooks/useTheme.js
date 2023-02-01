@@ -1,4 +1,4 @@
-import {useColorScheme} from 'react-native';
+import {Platform, useColorScheme} from 'react-native';
 import {MD3DarkTheme, MD3LightTheme} from 'react-native-paper';
 
 const blue = '#0077b6';

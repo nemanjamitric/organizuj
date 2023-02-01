@@ -1,26 +1,55 @@
 import {NavigationContainer} from "@react-navigation/native";
-import WelcomeScreen from "../../screens/preLoginScreens/WelcomeScreen";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomNavigationDrawer from "../../components/CustomNavigationDrawer";
 import LoginStack from "./LoginStack";
 import WelcomeStack from "./WelcomeStack";
+import {large, useBreakpoint} from "../../hooks/useBreakpoint";
 
 const Drawer = createDrawerNavigator();
 
 const PreLoginNavigation = (props) => {
-    return(
-        <NavigationContainer>
+    const breakpoint = useBreakpoint();
+
+    const linking = {
+        config: {
+            screens: {
+                Hello:
+                    {
+                        initialRouteName: 'WelcomeScreen',
+                        screens:
+                            {
+                                WelcomeScreen: '/hello',
+                                LoginScreen: '/hello/login',
+                            }
+                    },
+                Login:
+                    {
+                        initialRouteName: 'LoginScreen',
+                        screens:
+                            {
+                                WelcomeScreen: '/login/welcome',
+                                LoginScreen: '/login',
+                            }
+                    },
+
+            }
+        }
+    }
+
+    return (
+        <NavigationContainer linking={linking}>
             <Drawer.Navigator
                 screenOptions={{
                     headerShown: false,
                     drawerPosition: 'right',
+                    drawerType: breakpoint === large ? 'permanent' : 'back'
                 }}
                 initialRouteName="Welcome Stack"
 
                 drawerContent={(props) => <CustomNavigationDrawer {...props} />}
             >
-                <Drawer.Screen name='Welcome Stack' component={WelcomeStack} />
-                <Drawer.Screen name='Login Stack' component={LoginStack} />
+                <Drawer.Screen name='Hello' component={WelcomeStack}/>
+                <Drawer.Screen name='Login' component={LoginStack}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )

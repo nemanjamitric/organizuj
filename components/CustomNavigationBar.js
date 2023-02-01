@@ -1,6 +1,9 @@
 import {Appbar} from "react-native-paper";
+import {medium, useBreakpoint} from "../hooks/useBreakpoint";
 
 const CustomNavigationBar = ({options, navigation, back}) => {
+    const breakpoint = useBreakpoint();
+
     return (
         <Appbar.Header>
             {
@@ -11,11 +14,14 @@ const CustomNavigationBar = ({options, navigation, back}) => {
                 />
             }
             <Appbar.Content title={options.title}/>
-            <Appbar.Action
-                accessibilityLable="Menu"
-                icon='menu'
-                onPress={navigation.toggleDrawer}
-            />
+            {
+                breakpoint === medium &&
+                <Appbar.Action
+                    accessibilityLable="Menu"
+                    icon='menu'
+                    onPress={navigation.toggleDrawer}
+                />
+            }
         </Appbar.Header>
     )
 }

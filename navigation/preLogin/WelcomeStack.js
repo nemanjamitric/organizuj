@@ -22,7 +22,7 @@ const WelcomeStack = () => {
             <Stack.Screen
                 name='LoginScreen'
                 component={LoginScreen}
-                options={{title: "Welcome Screen"}}
+                options={{title: "Login Screen"}}
             />
         </Stack.Navigator>
     )

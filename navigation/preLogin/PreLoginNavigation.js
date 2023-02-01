@@ -12,9 +12,11 @@ const PreLoginNavigation = (props) => {
         <NavigationContainer>
             <Drawer.Navigator
                 screenOptions={{
-                    headerShown: false
+                    headerShown: false,
+                    drawerPosition: 'right',
                 }}
                 initialRouteName="Welcome Stack"
+
                 drawerContent={(props) => <CustomNavigationDrawer {...props} />}
             >
                 <Drawer.Screen name='Welcome Stack' component={WelcomeStack} />

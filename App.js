@@ -1,11 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import Navigation from "./navigation/Navigation";
+import LoginNavigation from "./navigation/LoginNavigation";
+import {Provider as PaperProvider} from 'react-native-paper';
 
 export default function App() {
   return (
-      <View style={{backgroundColor: 'red', flex: 1}}>
-        <Navigation />
-      </View>
+      <PaperProvider>
+          <View style={{backgroundColor: 'red', flex: 1}}>
+              <LoginNavigation />
+          </View>
+      </PaperProvider>
   );
 }

@@ -4,14 +4,14 @@ import {createDrawerNavigator} from "@react-navigation/drawer";
 
 const Drawer = createDrawerNavigator();
 
-const Navigation = (props) => {
+const LoginNavigation = (props) => {
     return(
         <NavigationContainer>
-            <Drawer.Navigator>
+            <Drawer.Navigator initialRouteName="WelcomeScreen">
                 <Drawer.Screen name='WelcomeScreen' component={WelcomeScreen} />
             </Drawer.Navigator>
         </NavigationContainer>
     )
 }
 
-export default Navigation;
+export default LoginNavigation;

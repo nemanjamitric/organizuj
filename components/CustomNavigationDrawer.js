@@ -3,6 +3,7 @@ import {Drawer} from "react-native-paper";
 import useTheme from "../hooks/useTheme";
 import {large, useBreakpoint} from "../hooks/useBreakpoint";
 import {Text} from "react-native";
+import {isBig} from "../hooks/isBig";
 
 
 const CustomNavigationDrawer = ({theme, ...navProps}) => {
@@ -14,8 +15,6 @@ const CustomNavigationDrawer = ({theme, ...navProps}) => {
         return index === state.index
     };
     const baseStyle = {flex: 1, backgroundColor: theme2.colors.background}
-
-    console.log("AA", )
 
     let itemStyle;
 
@@ -50,7 +49,7 @@ const CustomNavigationDrawer = ({theme, ...navProps}) => {
                                 if(breakpoint === large){
                                     return <Text></Text>
                                 }
-                                return <Text style={{fontSize: 16, color: theme2.colors.onBackground}}>route.name</Text>
+                                return <Text style={{fontSize: 16, color: theme2.colors.onBackground}}>{route.name}</Text>
                             }}
                             style={itemStyle}
                         />

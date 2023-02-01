@@ -42,7 +42,8 @@ const PreLoginNavigation = (props) => {
                 screenOptions={{
                     headerShown: false,
                     drawerPosition: 'right',
-                    drawerType: breakpoint === large ? 'permanent' : 'back'
+                    // drawerType: breakpoint === large ? 'permanent' : 'back'
+                    drawerType: 'back'
                 }}
                 initialRouteName="Welcome Stack"
 

@@ -2,7 +2,10 @@ import {StyleSheet} from "react-native";
 
 
 export const s = StyleSheet.create({
-    test: {
+    twoColumnsContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+
     },
     container: {
         flex: 1,

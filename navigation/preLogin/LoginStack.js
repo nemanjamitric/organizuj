@@ -12,13 +12,13 @@ const LoginStack = () => {
             <Stack.Navigator
                 initialRouteName="Welcome Screen"
                 screenOptions={{
-                    header: props => <CustomNavigationBar {...props} />
+                    header: props => <CustomNavigationBar hideHamburger {...props} />
                 }}
             >
                 <Stack.Screen
                     name='WelcomeScreen'
                     component={WelcomeScreen}
-                    options={{title: "Welcome Screen"}}
+                    options={{title: "Dobrodošli"}}
                 />
                 <Stack.Screen
                     name='LoginScreen'

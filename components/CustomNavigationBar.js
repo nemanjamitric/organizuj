@@ -1,7 +1,7 @@
-import {Appbar} from "react-native-paper";
+import {Appbar, Text} from "react-native-paper";
 import {medium, useBreakpoint} from "../hooks/useBreakpoint";
 import {isBig} from "../hooks/isBig";
-import {Platform} from "react-native";
+import {Image, Platform, View} from "react-native";
 
 const CustomNavigationBar = ({options, navigation, back, hideHamburger, showBack}) => {
     const breakpoint = useBreakpoint();
@@ -15,7 +15,14 @@ const CustomNavigationBar = ({options, navigation, back, hideHamburger, showBack
                     accessibilityLabel="Back"
                 />
             }
-            <Appbar.Content title={typeof options?.title === 'string' ? options.title : "ff"}/>
+            <Appbar.Content title={typeof options?.title === 'string' ?
+                <View style={{alignItems: 'center'}}>
+                    <Image source={require('../assets/TransparentLogo.png')} style={{height: 30, width: 30}} />
+                    <Text variant="headlineSmall">{options.title}</Text>
+                </View>
+                :
+                ""
+            } />
             {
                 !hideHamburger &&
                 <Appbar.Action

@@ -3,7 +3,7 @@ import {View} from "react-native";
 import {isBig} from "../hooks/isBig";
 
 const ScreenBackground = ({theme, style, children}) => {
-    const baseStyle = {flex: 1, backgroundColor: theme.colors.background, paddingHorizontal: isBig() ? '4%' : 0}
+    const baseStyle = {flex: 1, backgroundColor: theme.colors.background, paddingHorizontal:'4%', paddingTop: 20}
     return (
         <View
             style={{...baseStyle, ...style}}

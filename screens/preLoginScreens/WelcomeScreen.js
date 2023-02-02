@@ -34,8 +34,10 @@ const WelcomeScreen = (props) => {
                         <Text variant="bodyLarge" style={{textAlign: 'center'}}>Uradi brzu registraciju i odmah koristi naš servis!</Text>
                     </Card>
                     <View />
-                    <View style={{marginBottom: 20, height: 100, justifyContent: 'space-around'}}>
+                    <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
                         <Button mode='contained' onPress={() => navigation.navigate("Login", {screen: "LoginScreen"})}>Prijavi se</Button>
+                        <Divider />
+                        <Text variant="titleMedium" style={{textAlign: 'center'}}>Nemaš nalog?</Text>
                         <Button mode='outlined' onPress={() => navigation.navigate("Login", {screen: "RegistrationScreen"})}>Registruj se</Button>
                     </View>
                 </View>
@@ -55,8 +57,10 @@ const WelcomeScreen = (props) => {
                     <Text variant="bodyLarge" style={{textAlign: 'center'}}>Organizuj sva dešavanja koja planiraš na brži i efikasniji način.</Text>
                 </Card>
                 <View />
-                <View style={{marginBottom: 20, height: 100, justifyContent: 'space-around'}}>
+                <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
                     <Button mode='contained' onPress={() => navigation.navigate("Login", {screen: "LoginScreen"})}>Prijavi se</Button>
+                    <Divider />
+                    <Text variant="titleMedium" style={{textAlign: 'center'}}>Nemaš nalog?</Text>
                     <Button mode='outlined' onPress={() => navigation.navigate("Login", {screen: "RegistrationScreen"})}>Registruj se</Button>
                 </View>
             </View>

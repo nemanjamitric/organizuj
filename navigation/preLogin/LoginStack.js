@@ -4,6 +4,7 @@ import WelcomeScreen from "../../screens/preLoginScreens/WelcomeScreen";
 import LoginScreen from "../../screens/preLoginScreens/LoginScreen";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import CustomNavigationBar from "../../components/CustomNavigationBar";
+import RegistrationScreen from "../../screens/preLoginScreens/RegistrationScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -12,7 +13,7 @@ const LoginStack = () => {
             <Stack.Navigator
                 initialRouteName="Welcome Screen"
                 screenOptions={{
-                    header: props => <CustomNavigationBar hideHamburger {...props} />
+                    header: props => <CustomNavigationBar hideHamburger showBack={true} {...props} />
                 }}
             >
                 <Stack.Screen
@@ -23,7 +24,12 @@ const LoginStack = () => {
                 <Stack.Screen
                     name='LoginScreen'
                     component={LoginScreen}
-                    options={{title: "Login Screen"}}
+                    options={{title: "Prijava"}}
+                />
+                <Stack.Screen
+                    name='RegistrationScreen'
+                    component={RegistrationScreen}
+                    options={{title: "Registracija"}}
                 />
             </Stack.Navigator>
     )

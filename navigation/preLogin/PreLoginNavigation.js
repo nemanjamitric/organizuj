@@ -13,13 +13,13 @@ const PreLoginNavigation = (props) => {
     const linking = {
         config: {
             screens: {
+                initialRouteName: 'Hello',
                 Hello:
                     {
                         initialRouteName: 'WelcomeScreen',
                         screens:
                             {
                                 WelcomeScreen: '/hello',
-                                LoginScreen: '/hello/login',
                             }
                     },
                 Login:
@@ -27,8 +27,8 @@ const PreLoginNavigation = (props) => {
                         initialRouteName: 'LoginScreen',
                         screens:
                             {
-                                WelcomeScreen: '/login/welcome',
                                 LoginScreen: '/login',
+                                RegistrationScreen: '/registration',
                             }
                     },
 
@@ -42,11 +42,9 @@ const PreLoginNavigation = (props) => {
                 screenOptions={{
                     headerShown: false,
                     drawerPosition: 'right',
-                    // drawerType: breakpoint === large ? 'permanent' : 'back'
                     drawerType: 'back'
                 }}
                 initialRouteName="Welcome Stack"
-
                 drawerContent={(props) => <CustomNavigationDrawer {...props} />}
             >
                 <Drawer.Screen name='Hello' component={WelcomeStack}/>

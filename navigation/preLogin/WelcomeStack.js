@@ -9,7 +9,7 @@ const WelcomeStack = () => {
         <Stack.Navigator
             initialRouteName="Welcome Screen"
             screenOptions={{
-                header: props => <CustomNavigationBar {...props} />
+                header: props => <CustomNavigationBar hideHamburger {...props} />
             }}
         >
             <Stack.Screen

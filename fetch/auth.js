@@ -5,7 +5,7 @@ const {apiUrl}= environment;
 export const loginUser = (email, password) => {
     const formData = {email, password};
     return fetch(
-        `${apiUrl}/login?patient=true`,
+        `${apiUrl}/login`,
         {
             method: "POST",
             mode: "cors",
@@ -17,7 +17,7 @@ export const loginUser = (email, password) => {
 
 export const registerUser = (formData) => {
     return fetch(
-        `${apiUrl}/app/patient`,
+        `${apiUrl}/register`,
         {
             method: "POST",
             mode: "cors",

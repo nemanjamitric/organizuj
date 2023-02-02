@@ -1,37 +1,27 @@
 import {NavigationContainer} from "@react-navigation/native";
 import {createDrawerNavigator} from "@react-navigation/drawer";
 import CustomNavigationDrawer from "../../components/CustomNavigationDrawer";
-import LoginStack from "./LoginStack";
-import WelcomeStack from "./WelcomeStack";
 import {large, useBreakpoint} from "../../hooks/useBreakpoint";
+import HomeStack from "./HomeStack";
+import {isBig} from "../../hooks/isBig";
 
 const Drawer = createDrawerNavigator();
 
-const PreLoginNavigation = (props) => {
+const InAppNavigation = (props) => {
     const breakpoint = useBreakpoint();
 
     const linking = {
         config: {
             screens: {
-                initialRouteName: 'Hello',
-                Hello:
+                initialRouteName: 'Home',
+                Home:
                     {
-                        initialRouteName: 'WelcomeScreen',
+                        initialRouteName: 'Home',
                         screens:
                             {
-                                WelcomeScreen: '/hello',
+                                WelcomeScreen: '/home',
                             }
-                    },
-                Login:
-                    {
-                        initialRouteName: 'LoginScreen',
-                        screens:
-                            {
-                                LoginScreen: '/login',
-                                RegistrationScreen: '/registration',
-                            }
-                    },
-
+                    }
             }
         }
     }
@@ -42,16 +32,15 @@ const PreLoginNavigation = (props) => {
                 screenOptions={{
                     headerShown: false,
                     drawerPosition: 'right',
-                    drawerType: 'back'
+                    drawerType: isBig() ? 'permanent' : 'back'
                 }}
-                initialRouteName="Hello"
+                initialRouteName="Home"
                 drawerContent={(props) => <CustomNavigationDrawer {...props} />}
             >
-                <Drawer.Screen name='Hello' component={WelcomeStack}/>
-                <Drawer.Screen name='Login' component={LoginStack}/>
+                <Drawer.Screen name='Home' component={HomeStack}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )
 }
 
-export default PreLoginNavigation;
+export default InAppNavigation;

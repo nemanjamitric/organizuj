@@ -6,6 +6,14 @@ import {Image, Platform, View} from "react-native";
 const CustomNavigationBar = ({options, navigation, back, hideHamburger, showBack}) => {
     const breakpoint = useBreakpoint();
 
+    let hideHamburgerBool;
+    console.log(typeof hideHamburger, hideHamburger);
+    if (typeof hideHamburger === 'boolean'){
+        hideHamburgerBool = !hideHamburger;
+    } else {
+        hideHamburgerBool = !isBig();
+    }
+
     return (
         <Appbar.Header mode="center-aligned">
             {
@@ -24,7 +32,7 @@ const CustomNavigationBar = ({options, navigation, back, hideHamburger, showBack
                 ""
             } />
             {
-                !hideHamburger &&
+                hideHamburgerBool &&
                 <Appbar.Action
                     accessibilityLable="Menu"
                     icon='menu'

@@ -1,21 +1,21 @@
-import WelcomeScreen from "../../screens/preLoginScreens/WelcomeScreen";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import CustomNavigationBar from "../../components/CustomNavigationBar";
+import HomeScreen from "../../screens/userScreens/HomeScreen";
 
 const Stack = createNativeStackNavigator();
 
 const WelcomeStack = () => {
     return (
         <Stack.Navigator
-            initialRouteName="WelcomeScreen"
+            initialRouteName="HomeScreen"
             screenOptions={{
-                header: props => <CustomNavigationBar hideHamburger {...props} />
+                header: props => <CustomNavigationBar {...props} />
             }}
         >
             <Stack.Screen
-                name='WelcomeScreen'
-                component={WelcomeScreen}
-                options={{title: "Dobrodošli"}}
+                name='HomeScreen'
+                component={HomeScreen}
+                options={{title: "Home"}}
             />
         </Stack.Navigator>
     )

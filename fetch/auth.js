@@ -2,8 +2,8 @@ import {environment} from "../enviroments/enviroment";
 
 const {apiUrl}= environment;
 
-export const loginUser = (email, password) => {
-    const formData = {email, password};
+export const loginUser = (formData) => {
+    console.log("AAA", formData, `${apiUrl}/login`)
     return fetch(
         `${apiUrl}/login`,
         {
@@ -16,6 +16,7 @@ export const loginUser = (email, password) => {
 }
 
 export const registerUser = (formData) => {
+    console.log("AAA", formData, `${apiUrl}/register`)
     return fetch(
         `${apiUrl}/register`,
         {

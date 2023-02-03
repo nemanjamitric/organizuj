@@ -1,13 +1,16 @@
 import ScreenBackground from "../../components/ScreenBackground";
 import {Avatar, Button, Card, Divider, Snackbar, Text, TextInput} from "react-native-paper";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {Dimensions, Image, View} from "react-native";
 import {loginUser, registerUser} from "../../fetch/auth";
 import {isBig} from "../../hooks/isBig";
 import {s} from "../../styles/mainStyles";
 import {useNavigation} from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import {AuthContext} from "../../App";
 
 const LoginScreen = () => {
+    const authContext = useContext(AuthContext);
     const navigation = useNavigation();
     const [data, setData] = useState({
         "email": "",
@@ -22,9 +25,19 @@ const LoginScreen = () => {
     }
 
     const loginHandler = async () => {
+        console.log("DATA", data)
         await loginUser(data).then(async r => {
-            const res = await r.json();
-            console.log("REG", res)
+            const status = await r.status;
+            console.log("LOGIN", status);
+            if (status === 200){
+                const res = await r.json();
+                if (res.access_token) {
+                    await AsyncStorage.setItem('user', JSON.stringify(res?.user));
+                    await AsyncStorage.setItem('userId', JSON.stringify(res?.user?.id));
+                    await AsyncStorage.setItem('token', res?.access_token);
+                    await authContext.signIn();
+                }
+            }
         })
     }
 
@@ -70,6 +83,7 @@ const LoginScreen = () => {
                                 onChangeText={text => dataSetter("email", text)}
                                 keyboardType='email'
                                 mode='outlined'
+                                style={{marginBottom: 10}}
                             />
                             <TextInput
                                 label="Lozinka"
@@ -120,6 +134,7 @@ const LoginScreen = () => {
                             onChangeText={text => dataSetter("email", text)}
                             keyboardType='email'
                             mode='outlined'
+                            style={{marginBottom: 10}}
                         />
                         <TextInput
                             label="Lozinka"

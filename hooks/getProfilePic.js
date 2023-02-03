@@ -7,8 +7,12 @@ import Person5 from "../assets/People/Person5.png";
 import Person6 from "../assets/People/Person6.png";
 import Person7 from "../assets/People/Person7.png";
 
-export const getProfilePic = (id) => {
-    const switcher = id % 7;
+export const getProfilePic = (user) => {
+    if (user?.image){
+        return {uri: user?.image}
+    }
+
+    const switcher = user?.id % 7;
     switch (switcher) {
         case 0:
             return (Person0);

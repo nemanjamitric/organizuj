@@ -29,7 +29,7 @@ const RegistrationScreen = () => {
     const registerHandler = async () => {
         await registerUser(data).then(async r => {
             const res = await r.json();
-            console.log("REG", res)
+            console.log("REG2", res);
         })
     }
 
@@ -75,12 +75,14 @@ const RegistrationScreen = () => {
                                 value={data.firstName}
                                 onChangeText={text => dataSetter("firstName", text)}
                                 mode='outlined'
+                                style={{marginBottom: 10}}
                             />
                             <TextInput
                                 label="Prezime"
                                 value={data.lastName}
                                 onChangeText={text => dataSetter("lastName", text)}
                                 mode='outlined'
+                                style={{marginBottom: 10}}
                             />
                             <TextInput
                                 label="Email"
@@ -88,6 +90,7 @@ const RegistrationScreen = () => {
                                 onChangeText={text => dataSetter("email", text)}
                                 keyboardType='email'
                                 mode='outlined'
+                                style={{marginBottom: 10}}
                             />
                             <TextInput
                                 label="Broj telefona"
@@ -95,6 +98,25 @@ const RegistrationScreen = () => {
                                 onChangeText={text => dataSetter("phoneNumber", text)}
                                 keyboardType='numeric-pad'
                                 mode='outlined'
+                                style={{marginBottom: 10}}
+                            />
+                            <TextInput
+                                label="Lozinka"
+                                value={data.password}
+                                onChangeText={text => dataSetter("password", text)}
+                                mode='outlined'
+                                style={{marginBottom: 10}}
+                                secureTextEntry={!passwordVisible}
+                                right={<TextInput.Icon icon={passwordVisible ? "eye-off" : "eye"} onPress={() => {setPasswordVisible(!passwordVisible)}} />}
+                            />
+                            <TextInput
+                                label="Potvrdi lozinku"
+                                value={data.confirmPassword}
+                                onChangeText={text => dataSetter("confirmPassword", text)}
+                                mode='outlined'
+                                style={{marginBottom: 10}}
+                                secureTextEntry={!confirmVisible}
+                                right={<TextInput.Icon icon={confirmVisible ? "eye-off" : "eye"} onPress={() => {setConfirmVisible(!confirmVisible)}} />}
                             />
                         </Card.Content>
                     </Card>

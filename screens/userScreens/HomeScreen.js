@@ -37,7 +37,7 @@ const HomeScreen = (props) => {
         return (
             <Card style={{margin: 6}}>
                 <Card.Title title={`${item?.user?.firstName} ${item?.user?.lastName}`} subtitle={moment(item?.event?.startDate).format("DD.MM.YYYY.")}
-                            left={(props) => <Avatar.Image source={getProfilePic(item?.user?.id)} {...props}/>}/>
+                            left={(props) => <Avatar.Image source={getProfilePic(item?.user)} {...props}/>}/>
                 <Card.Cover source={{uri: `${apiUrl}/${item?.image?.imagePath}`}}/>
                 <Card.Content>
                     <Text variant="titleLarge">{item?.event?.eventName}</Text>
@@ -107,6 +107,7 @@ const HomeScreen = (props) => {
     }
 
     return (
+        <Portal.Host>
         <ScreenBackground>
             <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
                 <Card style={{paddingBottom: 10, margin: 6}}>
@@ -120,40 +121,41 @@ const HomeScreen = (props) => {
                     estimatedItemSize={20}
                 />
             </View>
-            <Portal>
-                <FAB.Group
-                    open={openFAB}
-                    visible
-                    icon={openFAB ? 'calendar-today' : 'plus'}
-                    actions={[
-                        {icon: 'plus', onPress: () => console.log('Pressed add')},
-                        {
-                            icon: 'star',
-                            label: 'Star',
-                            onPress: () => console.log('Pressed star'),
-                        },
-                        {
-                            icon: 'email',
-                            label: 'Email',
-                            onPress: () => console.log('Pressed email'),
-                        },
-                        {
-                            icon: 'bell',
-                            label: 'Remind',
-                            onPress: () => console.log('Pressed notifications'),
-                        },
-                    ]}
-                    onStateChange={() => {
-                        setOpenFAB(!openFAB)
-                    }}
-                    onPress={() => {
-                        if (openFAB) {
-                            // do something if the speed dial is open
-                        }
-                    }}
-                />
-            </Portal>
+                <Portal>
+                    <FAB.Group
+                        open={openFAB}
+                        visible
+                        icon={openFAB ? 'calendar-today' : 'plus'}
+                        actions={[
+                            {icon: 'plus', onPress: () => console.log('Pressed add')},
+                            {
+                                icon: 'star',
+                                label: 'Star',
+                                onPress: () => console.log('Pressed star'),
+                            },
+                            {
+                                icon: 'email',
+                                label: 'Email',
+                                onPress: () => console.log('Pressed email'),
+                            },
+                            {
+                                icon: 'bell',
+                                label: 'Remind',
+                                onPress: () => console.log('Pressed notifications'),
+                            },
+                        ]}
+                        onStateChange={() => {
+                            setOpenFAB(!openFAB)
+                        }}
+                        onPress={() => {
+                            if (openFAB) {
+                                // do something if the speed dial is open
+                            }
+                        }}
+                    />
+                </Portal>
         </ScreenBackground>
+</Portal.Host>
     )
 }
 

@@ -7,7 +7,6 @@ const CustomNavigationBar = ({options, navigation, back, hideHamburger, showBack
     const breakpoint = useBreakpoint();
 
     let hideHamburgerBool;
-    console.log(typeof hideHamburger, hideHamburger);
     if (typeof hideHamburger === 'boolean'){
         hideHamburgerBool = !hideHamburger;
     } else {

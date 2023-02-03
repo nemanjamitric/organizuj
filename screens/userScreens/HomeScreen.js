@@ -4,20 +4,26 @@ import {Avatar, Button, Card, FAB, Portal, Text} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import ScreenBackground from "../../components/ScreenBackground";
 import {isBig} from "../../hooks/isBig";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useState} from "react";
 import {getEvents} from "../../fetch/events";
 import {FlashList} from "@shopify/flash-list";
 import {environment} from "../../enviroments/enviroment";
 import {getProfilePic} from "../../hooks/getProfilePic";
 import moment from "moment";
+import {AuthContext} from "../../App";
+import {UserContext} from "../../contexts/UserContext";
 
-const {apiUrl} = environment;
+const {serverUrl} = environment;
 
 const HomeScreen = (props) => {
+    const authContext = useContext(AuthContext);
+    const {user} = useContext(UserContext);
     const navigation = useNavigation();
     const [openFAB, setOpenFAB] = useState(false);
     const [events, setEvents] = useState([]);
     const isFocused = useIsFocused();
+
+    console.log("USER", user )
 
     useEffect(() => {
         if (isFocused) {
@@ -30,15 +36,16 @@ const HomeScreen = (props) => {
             const res = await r.json();
             setEvents(res);
         })
-    }, [])
+    }, []);
 
     const renderEvent = ({item}) => {
-        console.log(`${apiUrl}/${item?.image?.imagePath}`)
+        console.log(`${serverUrl}${item?.image?.imagePath}`)
+
         return (
             <Card style={{margin: 6}}>
                 <Card.Title title={`${item?.user?.firstName} ${item?.user?.lastName}`} subtitle={moment(item?.event?.startDate).format("DD.MM.YYYY.")}
                             left={(props) => <Avatar.Image source={getProfilePic(item?.user)} {...props}/>}/>
-                <Card.Cover source={{uri: `${apiUrl}/${item?.image?.imagePath}`}}/>
+                <Card.Cover source={{uri: `${serverUrl}${item?.image?.imagePath}`}}/>
                 <Card.Content>
                     <Text variant="titleLarge">{item?.event?.eventName}</Text>
                     <Text variant="bodyMedium" numberOfLines={2}>{item?.event?.content}</Text>
@@ -56,7 +63,7 @@ const HomeScreen = (props) => {
                 <View style={{width: '50%'}}>
                         <Card style={{paddingBottom: 10, margin: 6}}>
                             <Card.Content>
-                                <Text variant="titleLarge">Dobrodošao Mihajlo!</Text>
+                                <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
                             </Card.Content>
                         </Card>
                         <FlashList
@@ -112,7 +119,7 @@ const HomeScreen = (props) => {
             <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
                 <Card style={{paddingBottom: 10, margin: 6}}>
                     <Card.Content>
-                        <Text variant="titleLarge">Dobrodošao Mihajlo!</Text>
+                        <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
                     </Card.Content>
                 </Card>
                 <FlashList

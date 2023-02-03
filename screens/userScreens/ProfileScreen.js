@@ -2,20 +2,26 @@ import ScreenBackground from "../../components/ScreenBackground";
 import {Avatar, Button, Card, Divider, Snackbar, Text, TextInput} from "react-native-paper";
 import {useContext, useState} from "react";
 import {Dimensions, Image, View} from "react-native";
-import {loginUser, registerUser} from "../../fetch/auth";
+import {registerUser} from "../../fetch/auth";
 import {isBig} from "../../hooks/isBig";
 import {s} from "../../styles/mainStyles";
 import {useNavigation} from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import {AuthContext} from "../../App";
+import {UserContext} from "../../contexts/UserContext";
 
-const LoginScreen = () => {
-    const authContext = useContext(AuthContext);
+const ProfileScreen = () => {
     const navigation = useNavigation();
+    const authContext = useContext(AuthContext);
+    const {user} = useContext(UserContext);
     const [data, setData] = useState({
+        "firstName": "",
+        "lastName": "",
+        "phoneNumber": "",
         "email": "",
         "password": "",
+        "confirmPassword": ""
     });
+    const [confirmVisible, setConfirmVisible] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
 
     const dataSetter = (field, value) => {
@@ -23,22 +29,6 @@ const LoginScreen = () => {
             return {...prevState, [field]: value};
         });
     }
-
-    const loginHandler = async () => {
-        await loginUser(data).then(async r => {
-            const status = await r.status;
-            if (status === 200){
-                const res = await r.json();
-                if (res.access_token) {
-                    await AsyncStorage.setItem('user', JSON.stringify(res?.user));
-                    await AsyncStorage.setItem('userId', JSON.stringify(res?.user?.id));
-                    await AsyncStorage.setItem('token', res?.access_token);
-                    await authContext.signIn();
-                }
-            }
-        })
-    }
-
 
     if (isBig()) {
         return (
@@ -57,7 +47,7 @@ const LoginScreen = () => {
                             height: Dimensions.get("window").height * 0.5
                         }}>
                             <Image
-                                source={require('../../assets/LoginPhoto.png')}
+                                source={require('../../assets/RegistrationImage.png')}
                                 style={{width: "100%", height: "100%"}}
                                 resizeMethod='cover'
                             />
@@ -65,7 +55,8 @@ const LoginScreen = () => {
                         <View style={{height: 10}}/>
                         <Divider/>
                         <View style={{height: 10}}/>
-                        <Text variant="headlineMedium">Vreme je vrednije od novca. Možete dobiti više novca, ali ne možete dobiti više vremena. – Džim Rom</Text>
+                        <Text variant="headlineMedium">Ako si uživao u potrošenom vremenu, onda to vreme nije uzalud
+                            potrošeno. – Džon Lenon</Text>
                     </Card>
                 </View>
                 <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
@@ -76,30 +67,44 @@ const LoginScreen = () => {
                         />
                         <Card.Content>
                             <TextInput
+                                label="Ime"
+                                value={user.firstName}
+                                onChangeText={text => dataSetter("firstName", text)}
+                                mode='outlined'
+                                style={{marginBottom: 10}}
+                            />
+                            <TextInput
+                                label="Prezime"
+                                value={user.lastName}
+                                onChangeText={text => dataSetter("lastName", text)}
+                                mode='outlined'
+                                style={{marginBottom: 10}}
+                            />
+                            <TextInput
                                 label="Email"
-                                value={data.email}
+                                value={user.email}
                                 onChangeText={text => dataSetter("email", text)}
                                 keyboardType='email'
                                 mode='outlined'
                                 style={{marginBottom: 10}}
                             />
                             <TextInput
-                                label="Lozinka"
-                                value={data.password}
-                                onChangeText={text => dataSetter("password", text)}
+                                label="Broj telefona"
+                                value={user.phoneNumber}
+                                onChangeText={text => dataSetter("phoneNumber", text)}
+                                keyboardType='numeric-pad'
                                 mode='outlined'
                                 style={{marginBottom: 10}}
-                                secureTextEntry={!passwordVisible}
-                                right={<TextInput.Icon icon={passwordVisible ? "eye-off" : "eye"} onPress={() => {setPasswordVisible(!passwordVisible)}} />}
                             />
                         </Card.Content>
                     </Card>
                     <View/>
                     <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
-                        <Button mode='contained' onPress={loginHandler}>Potvrdi</Button>
+                        <Button mode='contained' onPress={registerHandler}>Potvrdi</Button>
                         <Divider />
-                        <Text variant="titleMedium" style={{textAlign: 'center'}}>Nemaš nalog?</Text>
-                        <Button mode='outlined' onPress={() => navigation.navigate("RegistrationScreen")}>Kreiraj nalog</Button>
+                        <Text variant="titleMedium" style={{textAlign: 'center'}}>Već imaš nalog?</Text>
+                        <Button mode='outlined' onPress={() => navigation.navigate("LoginScreen")}>Uloguj
+                            se</Button>
                     </View>
                     <Snackbar
                         visible={false}
@@ -127,30 +132,42 @@ const LoginScreen = () => {
                     />
                     <Card.Content>
                         <TextInput
+                            label="Ime"
+                            value={user.firstName}
+                            onChangeText={text => dataSetter("firstName", text)}
+                            mode='outlined'
+                            style={{marginBottom: 10}}
+                        />
+                        <TextInput
+                            label="Prezime"
+                            value={user.lastName}
+                            onChangeText={text => dataSetter("lastName", text)}
+                            mode='outlined'
+                            style={{marginBottom: 10}}
+                        />
+                        <TextInput
                             label="Email"
-                            value={data.email}
+                            value={user.email}
                             onChangeText={text => dataSetter("email", text)}
                             keyboardType='email'
                             mode='outlined'
                             style={{marginBottom: 10}}
                         />
                         <TextInput
-                            label="Lozinka"
-                            value={data.password}
-                            onChangeText={text => dataSetter("password", text)}
+                            label="Broj telefona"
+                            value={user.phoneNumber}
+                            onChangeText={text => dataSetter("phoneNumber", text)}
+                            keyboardType='numeric-pad'
                             mode='outlined'
                             style={{marginBottom: 10}}
-                            secureTextEntry={!passwordVisible}
-                            right={<TextInput.Icon icon={passwordVisible ? "eye-off" : "eye"} onPress={() => {setPasswordVisible(!passwordVisible)}} />}
                         />
                     </Card.Content>
                 </Card>
                 <View/>
                 <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
-                    <Button mode='contained' onPress={loginHandler}>Potvrdi</Button>
-                    <Divider />
-                    <Text variant="titleMedium" style={{textAlign: 'center'}}>Nemaš nalog?</Text>
-                    <Button mode='outlined' onPress={() => navigation.navigate("RegistrationScreen")}>Kreiraj nalog</Button>
+                    <Button mode='contained' onPress={() => {
+                        authContext.signOut();
+                    }}>Odjavi se</Button>
                 </View>
                 <Snackbar
                     visible={false}
@@ -168,4 +185,4 @@ const LoginScreen = () => {
     )
 }
 
-export default LoginScreen;
+export default ProfileScreen;

@@ -4,6 +4,7 @@ import CustomNavigationDrawer from "../../components/CustomNavigationDrawer";
 import {large, useBreakpoint} from "../../hooks/useBreakpoint";
 import HomeStack from "./HomeStack";
 import {isBig} from "../../hooks/isBig";
+import ProfileStack from "./ProfileStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -16,10 +17,18 @@ const InAppNavigation = (props) => {
                 initialRouteName: 'Home',
                 Home:
                     {
-                        initialRouteName: 'Home',
+                        initialRouteName: 'HomeScreen',
                         screens:
                             {
-                                WelcomeScreen: '/home',
+                                HomeScreen: '/home',
+                            }
+                    },
+                Profile:
+                    {
+                        initialRouteName: 'ProfileScreen',
+                        screens:
+                            {
+                                ProfileScreen: '/profile',
                             }
                     }
             }
@@ -38,6 +47,7 @@ const InAppNavigation = (props) => {
                 drawerContent={(props) => <CustomNavigationDrawer {...props} />}
             >
                 <Drawer.Screen name='Home' component={HomeStack}/>
+                <Drawer.Screen name='Profile' component={ProfileStack}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )

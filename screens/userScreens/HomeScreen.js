@@ -1,6 +1,6 @@
 import {View} from "react-native";
 import {s} from "../../styles/mainStyles";
-import {Avatar, Button, Card, FAB, Portal, Text} from "react-native-paper";
+import {Avatar, Button, Card, Divider, FAB, Portal, Text} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import ScreenBackground from "../../components/ScreenBackground";
 import {isBig} from "../../hooks/isBig";
@@ -51,7 +51,9 @@ const HomeScreen = (props) => {
                     <Text variant="bodyMedium" numberOfLines={2}>{item?.event?.content}</Text>
                 </Card.Content>
                 <Card.Actions>
-                    <Button>Pogledaj</Button>
+                    <Button mode='elevated' onPress={() => {
+                        navigation.navigate("SingleEventScreen", {event: item});
+                    }}>Pogledaj</Button>
                 </Card.Actions>
             </Card>
         )
@@ -61,16 +63,18 @@ const HomeScreen = (props) => {
         return (
             <ScreenBackground style={s.twoColumnsContainer}>
                 <View style={{width: '50%'}}>
-                        <Card style={{paddingBottom: 10, margin: 6}}>
-                            <Card.Content>
-                                <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
-                            </Card.Content>
-                        </Card>
-                        <FlashList
-                            data={events}
-                            renderItem={renderEvent}
-                            estimatedItemSize={20}
-                        />
+                    <Card style={{margin: 6}}>
+                        <Card.Content>
+                            <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
+                        </Card.Content>
+                    </Card>
+                    <Divider bold style={{marginVertical: 10}} />
+                    <Text variant="titleLarge">Događaji</Text>
+                    <FlashList
+                        data={events}
+                        renderItem={renderEvent}
+                        estimatedItemSize={20}
+                    />
                 </View>
                 <View style={{flex: 1, width: '50%', justifyContent: 'space-between', paddingHorizontal: 10}}>
                     <Portal.Host>
@@ -117,11 +121,13 @@ const HomeScreen = (props) => {
         <Portal.Host>
         <ScreenBackground>
             <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
-                <Card style={{paddingBottom: 10, margin: 6}}>
+                <Card style={{margin: 6}}>
                     <Card.Content>
                         <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
                     </Card.Content>
                 </Card>
+                <Divider bold style={{marginVertical: 10}} />
+                <Text variant="titleLarge">Događaji</Text>
                 <FlashList
                     data={events}
                     renderItem={renderEvent}

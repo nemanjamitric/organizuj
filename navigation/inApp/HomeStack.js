@@ -1,6 +1,7 @@
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import CustomNavigationBar from "../../components/CustomNavigationBar";
 import HomeScreen from "../../screens/userScreens/HomeScreen";
+import SingleEventScreen from "../../screens/userScreens/SingleEventScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,11 @@ const WelcomeStack = () => {
                 name='HomeScreen'
                 component={HomeScreen}
                 options={{title: "Home"}}
+            />
+            <Stack.Screen
+                name='SingleEventScreen'
+                component={SingleEventScreen}
+                options={{title: "Događaj"}}
             />
         </Stack.Navigator>
     )

@@ -2,7 +2,6 @@ import ScreenBackground from "../../components/ScreenBackground";
 import {Avatar, Button, Card, Divider, Snackbar, Text, TextInput} from "react-native-paper";
 import {useContext, useState} from "react";
 import {Dimensions, Image, View} from "react-native";
-import {registerUser} from "../../fetch/auth";
 import {isBig} from "../../hooks/isBig";
 import {s} from "../../styles/mainStyles";
 import {useNavigation} from "@react-navigation/native";
@@ -14,20 +13,18 @@ const ProfileScreen = () => {
     const authContext = useContext(AuthContext);
     const {user} = useContext(UserContext);
     const [data, setData] = useState({
-        "firstName": "",
-        "lastName": "",
-        "phoneNumber": "",
-        "email": "",
-        "password": "",
-        "confirmPassword": ""
+        "firstName": user.firstName,
+        "lastName": user.lastName,
     });
-    const [confirmVisible, setConfirmVisible] = useState(false);
-    const [passwordVisible, setPasswordVisible] = useState(false);
 
     const dataSetter = (field, value) => {
         setData(prevState => {
             return {...prevState, [field]: value};
         });
+    }
+
+    const handleSaveChanges = async () => {
+
     }
 
     if (isBig()) {
@@ -68,14 +65,14 @@ const ProfileScreen = () => {
                         <Card.Content>
                             <TextInput
                                 label="Ime"
-                                value={user.firstName}
+                                value={data.firstName}
                                 onChangeText={text => dataSetter("firstName", text)}
                                 mode='outlined'
                                 style={{marginBottom: 10}}
                             />
                             <TextInput
                                 label="Prezime"
-                                value={user.lastName}
+                                value={data.lastName}
                                 onChangeText={text => dataSetter("lastName", text)}
                                 mode='outlined'
                                 style={{marginBottom: 10}}
@@ -85,6 +82,7 @@ const ProfileScreen = () => {
                                 value={user.email}
                                 onChangeText={text => dataSetter("email", text)}
                                 keyboardType='email'
+                                disabled
                                 mode='outlined'
                                 style={{marginBottom: 10}}
                             />
@@ -93,6 +91,7 @@ const ProfileScreen = () => {
                                 value={user.phoneNumber}
                                 onChangeText={text => dataSetter("phoneNumber", text)}
                                 keyboardType='numeric-pad'
+                                disabled
                                 mode='outlined'
                                 style={{marginBottom: 10}}
                             />
@@ -100,15 +99,17 @@ const ProfileScreen = () => {
                     </Card>
                     <View/>
                     <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
-                        <Button mode='contained' onPress={registerHandler}>Potvrdi</Button>
-                        <Divider />
-                        <Text variant="titleMedium" style={{textAlign: 'center'}}>Već imaš nalog?</Text>
-                        <Button mode='outlined' onPress={() => navigation.navigate("LoginScreen")}>Uloguj
-                            se</Button>
+                        <Button mode='contained' onPress={() => {
+                            handleSaveChanges();
+                        }}>Sačuvaj</Button>
+                        <Button mode='contained-tonal' onPress={() => {
+                            authContext.signOut();
+                        }}>Odjavi se</Button>
                     </View>
                     <Snackbar
                         visible={false}
-                        onDismiss={()=> {}}
+                        onDismiss={() => {
+                        }}
                         action={{
                             label: 'Undo',
                             onPress: () => {
@@ -133,14 +134,14 @@ const ProfileScreen = () => {
                     <Card.Content>
                         <TextInput
                             label="Ime"
-                            value={user.firstName}
+                            value={data.firstName}
                             onChangeText={text => dataSetter("firstName", text)}
                             mode='outlined'
                             style={{marginBottom: 10}}
                         />
                         <TextInput
                             label="Prezime"
-                            value={user.lastName}
+                            value={data.lastName}
                             onChangeText={text => dataSetter("lastName", text)}
                             mode='outlined'
                             style={{marginBottom: 10}}
@@ -150,6 +151,7 @@ const ProfileScreen = () => {
                             value={user.email}
                             onChangeText={text => dataSetter("email", text)}
                             keyboardType='email'
+                            disabled
                             mode='outlined'
                             style={{marginBottom: 10}}
                         />
@@ -158,6 +160,7 @@ const ProfileScreen = () => {
                             value={user.phoneNumber}
                             onChangeText={text => dataSetter("phoneNumber", text)}
                             keyboardType='numeric-pad'
+                            disabled
                             mode='outlined'
                             style={{marginBottom: 10}}
                         />
@@ -166,12 +169,16 @@ const ProfileScreen = () => {
                 <View/>
                 <View style={{marginBottom: 20, height: 140, justifyContent: 'space-around'}}>
                     <Button mode='contained' onPress={() => {
+                        handleSaveChanges();
+                    }}>Sačuvaj</Button>
+                    <Button mode='contained-tonal' onPress={() => {
                         authContext.signOut();
                     }}>Odjavi se</Button>
                 </View>
                 <Snackbar
                     visible={false}
-                    onDismiss={()=> {}}
+                    onDismiss={() => {
+                    }}
                     action={{
                         label: 'Undo',
                         onPress: () => {

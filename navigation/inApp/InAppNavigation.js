@@ -21,6 +21,7 @@ const InAppNavigation = (props) => {
                         screens:
                             {
                                 HomeScreen: '/home',
+                                SingleEventScreen: '/event',
                             }
                     },
                 Profile:

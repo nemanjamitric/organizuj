@@ -4,7 +4,7 @@ import {isBig} from "../hooks/isBig";
 
 const ScreenBackground = ({theme, style, children, single}) => {
     const baseStyle = {flex: 1, backgroundColor: theme.colors.background, paddingHorizontal:'4%', paddingTop: 20}
-    const singleStyle = {flex: 1, backgroundColor: theme.colors.background, paddingHorizontal:'20%', paddingTop: 20, alignItems: 'center'}
+    const singleStyle = {flex: 1, backgroundColor: theme.colors.background, paddingTop: 20, alignItems: 'center'}
     if (single){
         if (isBig()){
             return (

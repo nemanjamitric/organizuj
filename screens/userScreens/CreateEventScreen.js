@@ -1,12 +1,16 @@
 import ScreenBackground from "../../components/ScreenBackground";
-import {View} from "react-native";
+import {ScrollView, View} from "react-native";
 import {Avatar, Button, Card, Snackbar, Text, TextInput} from "react-native-paper";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {useNavigation} from "@react-navigation/native";
 import {DatePickerInput, TimePickerModal} from "react-native-paper-dates";
+import {UserContext} from "../../contexts/UserContext";
+import {createEvent} from "../../fetch/events";
+import moment from "moment";
 
 const CreateEventScreen = (props) => {
     const navigation = useNavigation();
+    const {user} = useContext(UserContext);
     const [data, setData] = useState({
         "eventName": "",
         "description": "",
@@ -17,6 +21,7 @@ const CreateEventScreen = (props) => {
         "categoryId": null,
         "cityId": null,
         "isCommentable": 1,
+        "userId": user.id,
     });
     const [startTimeObj, setStartTimeObj] = useState({
         hours: 10,
@@ -24,7 +29,7 @@ const CreateEventScreen = (props) => {
         visible: false
     })
     const [endTimeObj, setEndTimeObj] = useState({
-        hours: 10,
+        hours: 12,
         minutes: 0,
         visible: false
     })
@@ -37,12 +42,32 @@ const CreateEventScreen = (props) => {
     }
 
     const createHandler = async () => {
-
+        const dataToSend = {
+            "eventName": data.eventName,
+            "description": data.description,
+            "content": data.content,
+            "location": data.location,
+            "startDate": moment(data.startDate).format("YYYY-MM-DD") + " "
+                + startTimeObj.hours + ":" + (startTimeObj.minutes < 10 ? "0" : "") + startTimeObj.minutes + ":00",
+            "endDate": moment(data.endDate).format("YYYY-MM-DD") + " "
+                + endTimeObj.hours + ":" + (endTimeObj.minutes < 10 ? "0" : "") + endTimeObj.minutes + ":00",
+            "categoryId": 1,
+            "cityId": 1,
+            "isCommentable": 1,
+            "userId": user.id,
+        }
+        await createEvent(dataToSend).then(async r => {
+            const res = await r.json();
+            console.log("AAA", res)
+        })
     }
 
     return (
         <ScreenBackground single>
-            <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
+            <ScrollView
+                contentContainerStyle={{justifyContent: 'space-between'}}
+                style={{flex: 1, width: '100%', paddingHorizontal: 10}}
+            >
                 <Card>
                     <Card.Title
                         title='Podaci o događaju'
@@ -154,7 +179,7 @@ const CreateEventScreen = (props) => {
                     }}>
                     {snackbarObj?.message}
                 </Snackbar>
-            </View>
+            </ScrollView>
         </ScreenBackground>
     )
 }

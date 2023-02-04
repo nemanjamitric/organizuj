@@ -23,3 +23,17 @@ export const getEventById = async (id) => {
         }
     ).then(x => x);
 }
+
+export const createEvent = async (data) => {
+    console.log("SENDING", data);
+    return fetch(`${apiUrl}/event/create`, {
+            method: "POST",
+            mode: "cors",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${await getJWT()}`,
+            },
+            body: JSON.stringify(data)
+        }
+    ).then(x => x);
+}

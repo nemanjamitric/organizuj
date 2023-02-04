@@ -1,3 +1,4 @@
+import "./ignoreWarnings";
 import { View } from 'react-native';
 import PreLoginNavigation from "./navigation/preLogin/PreLoginNavigation";
 import {Provider as PaperProvider} from 'react-native-paper';
@@ -71,11 +72,15 @@ export default function App() {
             if(userToken){
                 dispatch({type: "SIGN_IN", token: userToken});
             }
-            await getUserById(userId).then(async r => {
-                const res = await r.json();
-                setUser(res?.user);
-                await AsyncStorage.setItem('user', JSON.stringify(res?.user));
-            })
+            if (userId){
+                await getUserById(userId).then(async r => {
+                    if (r.status === 200){
+                        const res = await r.json();
+                        setUser(res?.user);
+                        await AsyncStorage.setItem('user', JSON.stringify(res?.user));
+                    }
+                })
+            }
         }
         bootstrapAsync();
     }, []);

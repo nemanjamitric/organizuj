@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "organizuj-front",
-    "slug": "organizuj-front",
+    "name": "Organizuj",
+    "slug": "organizuj-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/IconFull.png",
@@ -19,9 +19,11 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic",
+      "userInterfaceStyle": "automatic"
     },
     "android": {
+      "package": "com.mnm.organizujApp",
+      "versionCode": 1,
       "userInterfaceStyle": "automatic",
       "adaptiveIcon": {
         "foregroundImage": "./assets/AndroidIcon.png",
@@ -30,6 +32,11 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "3a134f0c-f2ed-4a8d-93fa-c06d91232ad0"
+      }
     }
   }
 }

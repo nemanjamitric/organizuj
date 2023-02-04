@@ -19,6 +19,7 @@ const RegistrationScreen = () => {
     });
     const [confirmVisible, setConfirmVisible] = useState(false);
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [snackbarObj, setSnackbarObj] = useState({visible: false, message: ""});
 
     const dataSetter = (field, value) => {
         setData(prevState => {
@@ -28,8 +29,17 @@ const RegistrationScreen = () => {
 
     const registerHandler = async () => {
         await registerUser(data).then(async r => {
-            const res = await r.json();
-            console.log("REG2", res);
+            if (r.status < 500){
+                const res = await r.json();
+                if (r.status === 200){
+                    setSnackbarObj({visible: true, message: res.email?.toString()})
+                }
+                if (r.status === 400){
+                    setSnackbarObj({visible: true, message: res.email?.toString()})
+                }
+            } else {
+                setSnackbarObj({visible: true, message: "Uspešno ste se registrovali."})
+            }
         })
     }
 
@@ -96,7 +106,7 @@ const RegistrationScreen = () => {
                                 label="Broj telefona"
                                 value={data.phoneNumber}
                                 onChangeText={text => dataSetter("phoneNumber", text)}
-                                keyboardType='numeric-pad'
+                                keyboardType='phone-pad'
                                 mode='outlined'
                                 style={{marginBottom: 10}}
                             />
@@ -129,15 +139,17 @@ const RegistrationScreen = () => {
                             se</Button>
                     </View>
                     <Snackbar
-                        visible={false}
-                        onDismiss={()=> {}}
+                        visible={snackbarObj.visible}
+                        onDismiss={()=> {
+                            setSnackbarObj({visible: false, message: ""})
+                        }}
                         action={{
-                            label: 'Undo',
+                            label: 'U redu',
                             onPress: () => {
-                                // Do something
+                                setSnackbarObj({visible: false, message: ""})
                             },
                         }}>
-                        Hey there! I'm a Snackbar.
+                        {snackbarObj?.message}
                     </Snackbar>
                 </View>
             </ScreenBackground>
@@ -179,7 +191,7 @@ const RegistrationScreen = () => {
                             label="Broj telefona"
                             value={data.phoneNumber}
                             onChangeText={text => dataSetter("phoneNumber", text)}
-                            keyboardType='numeric-pad'
+                            keyboardType='phone-pad'
                             mode='outlined'
                             style={{marginBottom: 10}}
                         />
@@ -212,15 +224,17 @@ const RegistrationScreen = () => {
                         se</Button>
                 </View>
                 <Snackbar
-                    visible={false}
-                    onDismiss={()=> {}}
+                    visible={snackbarObj.visible}
+                    onDismiss={()=> {
+                        setSnackbarObj({visible: false, message: ""})
+                    }}
                     action={{
-                        label: 'Undo',
+                        label: 'U redu',
                         onPress: () => {
-                            // Do something
+                            setSnackbarObj({visible: false, message: ""})
                         },
                     }}>
-                    Hey there! I'm a Snackbar.
+                    {snackbarObj?.message}
                 </Snackbar>
             </View>
         </ScreenBackground>

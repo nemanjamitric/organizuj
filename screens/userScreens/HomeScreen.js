@@ -23,8 +23,6 @@ const HomeScreen = (props) => {
     const [events, setEvents] = useState([]);
     const isFocused = useIsFocused();
 
-    console.log("USER", user )
-
     useEffect(() => {
         if (isFocused) {
             loadEvents()
@@ -39,8 +37,6 @@ const HomeScreen = (props) => {
     }, []);
 
     const renderEvent = ({item}) => {
-        console.log(`${serverUrl}${item?.image?.imagePath}`)
-
         return (
             <Card style={{margin: 6}}>
                 <Card.Title title={`${item?.user?.firstName} ${item?.user?.lastName}`} subtitle={moment(item?.event?.startDate).format("DD.MM.YYYY.")}
@@ -52,7 +48,7 @@ const HomeScreen = (props) => {
                 </Card.Content>
                 <Card.Actions>
                     <Button mode='elevated' onPress={() => {
-                        navigation.navigate("SingleEventScreen", {event: item});
+                        navigation.navigate("SingleEventScreen", {eventId: item?.event?.id});
                     }}>Pogledaj</Button>
                 </Card.Actions>
             </Card>
@@ -82,24 +78,30 @@ const HomeScreen = (props) => {
                             <FAB.Group
                                 open={openFAB}
                                 visible
-                                icon={openFAB ? 'calendar-today' : 'plus'}
+                                icon={openFAB ? 'close' : 'plus'}
                                 actions={[
-                                    {icon: 'plus', onPress: () => console.log('Pressed add')},
                                     {
-                                        icon: 'star',
-                                        label: 'Star',
-                                        onPress: () => console.log('Pressed star'),
+                                        icon: 'plus',
+                                        label: 'Kreiraj događaj',
+                                        onPress: () => {
+                                            navigation.navigate('CreateEventScreen');
+                                        }
                                     },
-                                    {
-                                        icon: 'email',
-                                        label: 'Email',
-                                        onPress: () => console.log('Pressed email'),
-                                    },
-                                    {
-                                        icon: 'bell',
-                                        label: 'Remind',
-                                        onPress: () => console.log('Pressed notifications'),
-                                    },
+                                    // {
+                                    //     icon: 'star',
+                                    //     label: 'Star',
+                                    //     onPress: () => console.log('Pressed star'),
+                                    // },
+                                    // {
+                                    //     icon: 'email',
+                                    //     label: 'Email',
+                                    //     onPress: () => console.log('Pressed email'),
+                                    // },
+                                    // {
+                                    //     icon: 'bell',
+                                    //     label: 'Remind',
+                                    //     onPress: () => console.log('Pressed notifications'),
+                                    // },
                                 ]}
                                 onStateChange={() => {
                                     setOpenFAB(!openFAB)
@@ -138,24 +140,30 @@ const HomeScreen = (props) => {
                     <FAB.Group
                         open={openFAB}
                         visible
-                        icon={openFAB ? 'calendar-today' : 'plus'}
+                        icon={openFAB ? 'close' : 'plus'}
                         actions={[
-                            {icon: 'plus', onPress: () => console.log('Pressed add')},
                             {
-                                icon: 'star',
-                                label: 'Star',
-                                onPress: () => console.log('Pressed star'),
+                                icon: 'plus',
+                                label: 'Kreiraj događaj',
+                                onPress: () => {
+                                    navigation.navigate('CreateEventScreen');
+                                }
                             },
-                            {
-                                icon: 'email',
-                                label: 'Email',
-                                onPress: () => console.log('Pressed email'),
-                            },
-                            {
-                                icon: 'bell',
-                                label: 'Remind',
-                                onPress: () => console.log('Pressed notifications'),
-                            },
+                            // {
+                            //     icon: 'star',
+                            //     label: 'Star',
+                            //     onPress: () => console.log('Pressed star'),
+                            // },
+                            // {
+                            //     icon: 'email',
+                            //     label: 'Email',
+                            //     onPress: () => console.log('Pressed email'),
+                            // },
+                            // {
+                            //     icon: 'bell',
+                            //     label: 'Remind',
+                            //     onPress: () => console.log('Pressed notifications'),
+                            // },
                         ]}
                         onStateChange={() => {
                             setOpenFAB(!openFAB)

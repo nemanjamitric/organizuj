@@ -22,6 +22,7 @@ const InAppNavigation = (props) => {
                             {
                                 HomeScreen: '/home',
                                 SingleEventScreen: '/event',
+                                CreateEventScreen: '/createEvent',
                             }
                     },
                 Profile:

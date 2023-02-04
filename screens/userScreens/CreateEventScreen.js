@@ -78,7 +78,7 @@ const CreateEventScreen = (props) => {
                             style={{marginBottom: 10}}
                         />
                         <DatePickerInput
-                            locale="enGB"
+                            locale="sr"
                             label="Datum Početka"
                             value={data.startDate}
                             onChange={(d) => dataSetter("startDate", d)}
@@ -86,7 +86,7 @@ const CreateEventScreen = (props) => {
                             style={{marginBottom: 10}}
                         />
                         <DatePickerInput
-                            locale="enGB"
+                            locale="sr"
                             label="Datum Kraja"
                             value={data.endDate}
                             onChange={(d) => dataSetter("endDate", d)}

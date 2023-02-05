@@ -60,7 +60,7 @@ const SingleEventScreen = (props) => {
                                                     source={getProfilePic(eventObj?.user)} {...props}/>}/>
                                     <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>
                                     <Card.Content>
-                                        <Text variant="titleLarge">{eventObj?.event?.eventName}</Text>
+                                        <Text variant="titleLarge">{eventObj?.event?.name}</Text>
                                         <Text variant="bodyMedium">{eventObj?.event?.content}</Text>
                                     </Card.Content>
                                     <Card.Actions>
@@ -96,7 +96,7 @@ const SingleEventScreen = (props) => {
                                             source={getProfilePic(eventObj?.user)} {...props}/>}/>
                             {eventObj?.image?.imagePath && <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>}
                             <Card.Content style={{paddingTop: 10}}>
-                                <Text variant="titleLarge">{eventObj?.event?.eventName}</Text>
+                                <Text variant="titleLarge">{eventObj?.event?.name}</Text>
                                 <Divider bold style={{marginVertical: 4}}/>
                                 <Text variant="titleMedium">Opis</Text>
                                 <Text variant="bodyMedium">{eventObj?.event?.description}</Text>

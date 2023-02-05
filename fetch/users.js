@@ -4,6 +4,7 @@ import {getJWT} from "../hooks/getJWT";
 const {apiUrl}= environment;
 
 export const getUserById = async (id) => {
+    console.log(`${apiUrl}/user/get/${id}`)
     return fetch(`${apiUrl}/user/get/${id}`, {
             method: "GET",
             mode: "cors",

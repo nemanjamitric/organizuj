@@ -4,7 +4,7 @@ import {Avatar, Button, Card, Divider, FAB, Portal, SegmentedButtons, Text} from
 import {useIsFocused, useNavigation} from "@react-navigation/native";
 import ScreenBackground from "../../components/ScreenBackground";
 import {isBig} from "../../hooks/isBig";
-import {useCallback, useContext, useEffect, useState} from "react";
+import {useCallback, useContext, useEffect, useMemo, useState} from "react";
 import {getEvents} from "../../fetch/events";
 import {FlashList} from "@shopify/flash-list";
 import {environment} from "../../enviroments/enviroment";
@@ -21,6 +21,7 @@ const EventsScreen = (props) => {
     const navigation = useNavigation();
     const [openFAB, setOpenFAB] = useState(false);
     const [events, setEvents] = useState([]);
+    const [myEvents, setMyEvents] = useState([]);
     const [tabSelected, setTabSelected] = useState(0);
     const isFocused = useIsFocused();
 
@@ -33,9 +34,23 @@ const EventsScreen = (props) => {
     const loadEvents = useCallback(async () => {
         await getEvents().then(async r => {
             const res = await r.json();
-            setEvents(res);
+            let myEventsArray = [];
+            let publicEventsArray = [];
+            res.forEach(ev => {
+                if (ev.user.id === user.id){
+                    myEventsArray.push(ev);
+                } else {
+                    if (true){
+                        publicEventsArray.push(ev);
+                    }
+                }
+            })
+            setEvents(publicEventsArray);
+            setMyEvents(myEventsArray);
         })
     }, []);
+
+    console.log(events)
 
     const renderEvent = ({item}) => {
         return (
@@ -44,7 +59,7 @@ const EventsScreen = (props) => {
                             left={(props) => <Avatar.Image source={getProfilePic(item?.user)} {...props}/>}/>
                 {item?.image?.imagePath && <Card.Cover source={{uri: `${serverUrl}${item?.image?.imagePath}`}}/>}
                 <Card.Content style={{paddingTop: 10}}>
-                    <Text variant="titleLarge">{item?.event?.eventName}</Text>
+                    <Text variant="titleLarge">{item?.event?.name}</Text>
                     <Text variant="bodyMedium" numberOfLines={2}>{item?.event?.description}</Text>
                 </Card.Content>
                 <Card.Actions>
@@ -115,6 +130,37 @@ const EventsScreen = (props) => {
         )
     }
 
+    const renderList = useMemo(() => {
+        if (tabSelected === 0){
+            return(
+                <FlashList
+                    data={myEvents}
+                    renderItem={renderEvent}
+                    estimatedItemSize={20}
+                    showsHorizontalScrollIndicator={false}
+                />
+            )
+        } else if (tabSelected === 1){
+            return(
+                <FlashList
+                    data={events}
+                    renderItem={renderEvent}
+                    estimatedItemSize={20}
+                    showsHorizontalScrollIndicator={false}
+                />
+            )
+        } else {
+            return(
+                <FlashList
+                    data={events}
+                    renderItem={renderEvent}
+                    estimatedItemSize={20}
+                    showsHorizontalScrollIndicator={false}
+                />
+            )
+        }
+    }, [events, myEvents, tabSelected])
+
     return (
         <Portal.Host>
             <ScreenBackground>
@@ -126,24 +172,21 @@ const EventsScreen = (props) => {
                         buttons={[
                             {
                                 value: 0,
-                                label: 'Javni',
-                            },
-                            {
-                                value: 1,
                                 label: 'Moji',
                             },
                             {
+                                value: 1,
+                                label: 'Potvrđeni',
+                            },
+                            {
                                 value: 2,
-                                label: 'Potvrđeni'
+                                label: 'Javni'
                             },
                         ]}
                     />
-                    <FlashList
-                        data={events}
-                        renderItem={renderEvent}
-                        estimatedItemSize={20}
-                        showsHorizontalScrollIndicator={false}
-                    />
+                    {
+                        renderList
+                    }
                 </View>
                 <Portal>
                     <FAB.Group

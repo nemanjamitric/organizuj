@@ -2,7 +2,7 @@
   "expo": {
     "name": "Organizuj",
     "slug": "organizuj-app",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/IconFull.png",
     "userInterfaceStyle": "automatic",
@@ -37,6 +37,14 @@
       "eas": {
         "projectId": "3a134f0c-f2ed-4a8d-93fa-c06d91232ad0"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ]
+    ]
   }
 }

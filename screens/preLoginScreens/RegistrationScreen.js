@@ -30,6 +30,7 @@ const RegistrationScreen = () => {
     const registerHandler = async () => {
         await registerUser(data).then(async r => {
             if (r.status < 500){
+                // console.log("AAAAA", await r.text())
                 const res = await r.json();
                 if (r.status === 200){
                     setSnackbarObj({visible: true, message: res.email?.toString()})

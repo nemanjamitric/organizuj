@@ -17,6 +17,7 @@ const LoginScreen = () => {
         "password": "",
     });
     const [passwordVisible, setPasswordVisible] = useState(false);
+    const [snackbarObj, setSnackbarObj] = useState({visible: false, message: ""});
 
     const dataSetter = (field, value) => {
         setData(prevState => {
@@ -27,6 +28,7 @@ const LoginScreen = () => {
     const loginHandler = async () => {
         await loginUser(data).then(async r => {
             const status = await r.status;
+            console.log("CCC", status, data);
             if (status === 200){
                 const res = await r.json();
                 if (res.access_token) {
@@ -34,6 +36,13 @@ const LoginScreen = () => {
                     await AsyncStorage.setItem('userId', JSON.stringify(res?.user?.id));
                     await AsyncStorage.setItem('token', res?.access_token);
                     await authContext.signIn();
+                }
+            } else {
+                if (status === 401){
+                    const res = await r.json();
+                    setSnackbarObj({visible: true, message: res.message})
+                } else {
+                    setSnackbarObj({visible: true, message: "Login neuspešan."})
                 }
             }
         })
@@ -102,15 +111,17 @@ const LoginScreen = () => {
                         <Button mode='outlined' onPress={() => navigation.navigate("RegistrationScreen")}>Kreiraj nalog</Button>
                     </View>
                     <Snackbar
-                        visible={false}
-                        onDismiss={()=> {}}
+                        visible={snackbarObj.visible}
+                        onDismiss={()=> {
+                            setSnackbarObj({visible: false, message: ""})
+                        }}
                         action={{
-                            label: 'Undo',
+                            label: 'U redu',
                             onPress: () => {
-                                // Do something
+                                setSnackbarObj({visible: false, message: ""})
                             },
                         }}>
-                        Hey there! I'm a Snackbar.
+                        {snackbarObj?.message}
                     </Snackbar>
                 </View>
             </ScreenBackground>
@@ -153,15 +164,17 @@ const LoginScreen = () => {
                     <Button mode='outlined' onPress={() => navigation.navigate("RegistrationScreen")}>Kreiraj nalog</Button>
                 </View>
                 <Snackbar
-                    visible={false}
-                    onDismiss={()=> {}}
+                    visible={snackbarObj.visible}
+                    onDismiss={()=> {
+                        setSnackbarObj({visible: false, message: ""})
+                    }}
                     action={{
-                        label: 'Undo',
+                        label: 'U redu',
                         onPress: () => {
-                            // Do something
+                            setSnackbarObj({visible: false, message: ""})
                         },
                     }}>
-                    Hey there! I'm a Snackbar.
+                    {snackbarObj?.message}
                 </Snackbar>
             </View>
         </ScreenBackground>

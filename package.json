@@ -42,7 +42,13 @@
     "react-native-web": "~0.18.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9"
+    "@babel/core": "^7.12.9",
+    "gh-pages": "^5.0.0"
   },
-  "private": true
+  "private": true,
+  "homepage": "http://evanbacon.github.io/expo-gh-pages",
+  "scripts": {
+    "deploy": "gh-pages -d web-build",
+    "predeploy": "expo export:web"
+  }
 }

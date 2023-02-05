@@ -58,7 +58,6 @@ const CreateEventScreen = (props) => {
         }
         await createEvent(dataToSend).then(async r => {
             const res = await r.json();
-            console.log("AAA", res)
         })
     }
 
@@ -66,7 +65,7 @@ const CreateEventScreen = (props) => {
         <ScreenBackground single>
             <ScrollView
                 contentContainerStyle={{justifyContent: 'space-between'}}
-                style={{flex: 1, width: '100%', paddingHorizontal: 10}}
+                style={{flex: 1, width: '100%'}}
             >
                 <Card>
                     <Card.Title

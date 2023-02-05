@@ -104,6 +104,14 @@ export default function App() {
                     dispatch({type: "SIGN_IN", token: userToken});
                 })
             },
+            refreshUser: async () => {
+                const userId = await AsyncStorage.getItem("userId");
+                await getUserById(userId).then(async r => {
+                    const res = await r.json();
+                    console.log("REFRESHING")
+                    setUser(res?.user);
+                })
+            },
             signOut: async () => {
                 await AsyncStorage.removeItem("token");
                 await AsyncStorage.removeItem("userId");

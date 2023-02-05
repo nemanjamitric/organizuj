@@ -5,6 +5,7 @@ import {large, useBreakpoint} from "../../hooks/useBreakpoint";
 import HomeStack from "./HomeStack";
 import {isBig} from "../../hooks/isBig";
 import ProfileStack from "./ProfileStack";
+import EventsStack from "./EventsStack";
 
 const Drawer = createDrawerNavigator();
 
@@ -20,9 +21,7 @@ const InAppNavigation = (props) => {
                         initialRouteName: 'HomeScreen',
                         screens:
                             {
-                                HomeScreen: '/home',
-                                SingleEventScreen: '/event',
-                                CreateEventScreen: '/createEvent',
+                                HomeScreen: '/home'
                             }
                     },
                 Profile:
@@ -31,6 +30,16 @@ const InAppNavigation = (props) => {
                         screens:
                             {
                                 ProfileScreen: '/profile',
+                            }
+                    },
+                Events:
+                    {
+                        initialRouteName: 'EventsScreen',
+                        screens:
+                            {
+                                EventsScreen: '/events',
+                                SingleEventScreen: '/event',
+                                CreateEventScreen: '/createEvent',
                             }
                     }
             }
@@ -50,6 +59,7 @@ const InAppNavigation = (props) => {
             >
                 <Drawer.Screen name='Home' component={HomeStack}/>
                 <Drawer.Screen name='Profile' component={ProfileStack}/>
+                <Drawer.Screen name='Events' component={EventsStack}/>
             </Drawer.Navigator>
         </NavigationContainer>
     )

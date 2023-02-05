@@ -26,7 +26,6 @@ const SingleEventScreen = (props) => {
                 navigation.goBack();
             } else {
                 const event = await r.json();
-                console.log("EVENT", event);
                 setEventObj(event);
                 setLoaded(true);
             }
@@ -70,7 +69,7 @@ const SingleEventScreen = (props) => {
                                 </Card>
                             </View>
                             <View
-                                style={{flex: 1, width: '50%', justifyContent: 'space-between', paddingHorizontal: 10}}>
+                                style={{flex: 1, width: '50%', justifyContent: 'space-between'}}>
                             </View>
                         </>
                         :
@@ -83,15 +82,16 @@ const SingleEventScreen = (props) => {
     }
 
     return (
-        <ScreenBackground>
+        <ScreenBackground style={{paddingBottom: 40}}>
             <ScrollView
+                showsHorizontalScrollIndicator={false}
                 style={{flex: 1, width: '100%'}}
             >
                 {
                     loaded ?
                         <Card style={{margin: 6}}>
                             <Card.Title title={`${eventObj?.user?.firstName} ${eventObj?.user?.lastName}`}
-                                        subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
+                                        // subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
                                         left={(props) => <Avatar.Image
                                             source={getProfilePic(eventObj?.user)} {...props}/>}/>
                             {eventObj?.image?.imagePath && <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>}
@@ -104,6 +104,9 @@ const SingleEventScreen = (props) => {
                                 <Text variant="titleMedium">Sadržaj</Text>
                                 <Text variant="bodyMedium">{eventObj?.event?.content.replace(/\n/g, " ")}</Text>
                                 <Divider bold style={{marginVertical: 4}}/>
+                                <Text variant="titleMedium">Lokacija</Text>
+                                <Text variant="bodyMedium">{eventObj?.event?.location}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
                                 <Text variant="titleMedium">Početak:</Text>
                                 <Text
                                     variant="bodyMedium">{moment(eventObj?.event?.startDate).format('DD.MM.YYYY hh:mm')}</Text>
@@ -112,7 +115,6 @@ const SingleEventScreen = (props) => {
                                 <Text
                                     variant="bodyMedium">{moment(eventObj?.event?.endDate).format('DD.MM.YYYY hh:mm')}</Text>
                                 <Divider bold style={{marginVertical: 4}}/>
-
                             </Card.Content>
                             <Card.Actions>
                                 <Button>Pogledaj</Button>

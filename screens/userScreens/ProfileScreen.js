@@ -7,6 +7,7 @@ import {s} from "../../styles/mainStyles";
 import {useNavigation} from "@react-navigation/native";
 import {AuthContext} from "../../App";
 import {UserContext} from "../../contexts/UserContext";
+import {updateUser} from "../../fetch/users";
 
 const ProfileScreen = () => {
     const navigation = useNavigation();
@@ -24,7 +25,12 @@ const ProfileScreen = () => {
     }
 
     const handleSaveChanges = async () => {
-
+        await updateUser({...user, ...data}).then(async r => {
+            const res = await r.json();
+            if (res && res?.[0].includes("updated successfully")){
+                await authContext.refreshUser();
+            }
+        })
     }
 
     if (isBig()) {
@@ -56,7 +62,7 @@ const ProfileScreen = () => {
                             potrošeno. – Džon Lenon</Text>
                     </Card>
                 </View>
-                <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
+                <View style={{flex: 1, justifyContent: 'space-between'}}>
                     <Card>
                         <Card.Title
                             title='Vaši podaci'
@@ -125,7 +131,7 @@ const ProfileScreen = () => {
 
     return (
         <ScreenBackground>
-            <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
+            <View style={{flex: 1, justifyContent: 'space-between'}}>
                 <Card>
                     <Card.Title
                         title='Vaši podaci'

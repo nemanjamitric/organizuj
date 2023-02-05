@@ -41,10 +41,10 @@ const HomeScreen = (props) => {
             <Card style={{margin: 6}}>
                 <Card.Title title={`${item?.user?.firstName} ${item?.user?.lastName}`} subtitle={moment(item?.event?.startDate).format("DD.MM.YYYY.")}
                             left={(props) => <Avatar.Image source={getProfilePic(item?.user)} {...props}/>}/>
-                <Card.Cover source={{uri: `${serverUrl}${item?.image?.imagePath}`}}/>
-                <Card.Content>
+                {item?.image?.imagePath && <Card.Cover source={{uri: `${serverUrl}${item?.image?.imagePath}`}}/>}
+                <Card.Content style={{paddingTop: 10}}>
                     <Text variant="titleLarge">{item?.event?.eventName}</Text>
-                    <Text variant="bodyMedium" numberOfLines={2}>{item?.event?.content}</Text>
+                    <Text variant="bodyMedium" numberOfLines={2}>{item?.event?.description}</Text>
                 </Card.Content>
                 <Card.Actions>
                     <Button mode='elevated' onPress={() => {
@@ -58,18 +58,19 @@ const HomeScreen = (props) => {
     if (isBig()) {
         return (
             <ScreenBackground style={s.twoColumnsContainer}>
-                <View style={{width: '50%'}}>
+                <View style={{flex: 1, paddingBottom: 30}}>
                     <Card style={{margin: 6}}>
                         <Card.Content>
                             <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
                         </Card.Content>
                     </Card>
                     <Divider bold style={{marginVertical: 10}} />
-                    <Text variant="titleLarge">Događaji</Text>
+                    <Text variant="titleLarge" style={{marginBottom: 5}}>Događaji</Text>
                     <FlashList
                         data={events}
                         renderItem={renderEvent}
                         estimatedItemSize={20}
+                        showsHorizontalScrollIndicator={false}
                     />
                 </View>
                 <View style={{flex: 1, width: '50%', justifyContent: 'space-between', paddingHorizontal: 10}}>
@@ -122,18 +123,19 @@ const HomeScreen = (props) => {
     return (
         <Portal.Host>
         <ScreenBackground>
-            <View style={{flex: 1, justifyContent: 'space-between', paddingHorizontal: 10}}>
+            <View style={{flex: 1, justifyContent: 'space-between', paddingBottom: 30}}>
                 <Card style={{margin: 6}}>
                     <Card.Content>
                         <Text variant="titleLarge">Dobrodošao {user?.firstName}!</Text>
                     </Card.Content>
                 </Card>
                 <Divider bold style={{marginVertical: 10}} />
-                <Text variant="titleLarge">Događaji</Text>
+                <Text variant="titleLarge" style={{marginBottom: 5}}>Događaji</Text>
                 <FlashList
                     data={events}
                     renderItem={renderEvent}
                     estimatedItemSize={20}
+                    showsHorizontalScrollIndicator={false}
                 />
             </View>
                 <Portal>

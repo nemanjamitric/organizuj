@@ -1,4 +1,4 @@
-import {Image, View} from "react-native";
+import {ScrollView, View} from "react-native";
 import {s} from "../../styles/mainStyles";
 import {ActivityIndicator, Avatar, Button, Card, Divider, Text} from "react-native-paper";
 import {useIsFocused, useNavigation} from "@react-navigation/native";
@@ -22,7 +22,7 @@ const SingleEventScreen = (props) => {
     const loadEvent = async () => {
         await getEventById(eventId).then(async r => {
             const status = r.status;
-            if (status !== 200){
+            if (status !== 200) {
                 navigation.goBack();
             } else {
                 const event = await r.json();
@@ -34,39 +34,48 @@ const SingleEventScreen = (props) => {
     }
 
     useEffect(() => {
-        if (eventId && isFocused){
+        if (eventId && isFocused) {
             loadEvent();
         } else {
             setLoaded(false);
         }
     }, [eventId]);
 
-    if (isBig()){
+    if (isBig()) {
         return (
             <ScreenBackground style={s.twoColumnsContainer}>
                 {
                     loaded ?
                         <>
                             <View style={{width: '50%'}}>
-                                <Card style={{justifyContent: 'center', alignItems: 'center', padding: 20, flex: 1, marginBottom: 20}}>
-                                    <Card.Title title={`${eventObj?.user?.firstName} ${eventObj?.user?.lastName}`} subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
-                                                left={(props) => <Avatar.Image source={getProfilePic(eventObj?.user)} {...props}/>}/>
+                                <Card style={{
+                                    justifyContent: 'center',
+                                    alignItems: 'center',
+                                    padding: 20,
+                                    flex: 1,
+                                    marginBottom: 20
+                                }}>
+                                    <Card.Title title={`${eventObj?.user?.firstName} ${eventObj?.user?.lastName}`}
+                                                subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
+                                                left={(props) => <Avatar.Image
+                                                    source={getProfilePic(eventObj?.user)} {...props}/>}/>
                                     <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>
                                     <Card.Content>
                                         <Text variant="titleLarge">{eventObj?.event?.eventName}</Text>
-                                        <Text variant="bodyMedium" numberOfLines={2}>{eventObj?.event?.content}</Text>
+                                        <Text variant="bodyMedium">{eventObj?.event?.content}</Text>
                                     </Card.Content>
                                     <Card.Actions>
                                         <Button>Prijavi me</Button>
                                     </Card.Actions>
                                 </Card>
                             </View>
-                            <View style={{flex: 1, width: '50%', justifyContent: 'space-between', paddingHorizontal: 10}}>
+                            <View
+                                style={{flex: 1, width: '50%', justifyContent: 'space-between', paddingHorizontal: 10}}>
                             </View>
                         </>
                         :
                         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                            <ActivityIndicator size='large' />
+                            <ActivityIndicator size='large'/>
                         </View>
                 }
             </ScreenBackground>
@@ -75,25 +84,46 @@ const SingleEventScreen = (props) => {
 
     return (
         <ScreenBackground>
-            {
-                loaded ?
-                    <Card style={{margin: 6}}>
-                        <Card.Title title={`${eventObj?.user?.firstName} ${eventObj?.user?.lastName}`} subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
-                                    left={(props) => <Avatar.Image source={getProfilePic(eventObj?.user)} {...props}/>}/>
-                        <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>
-                        <Card.Content>
-                            <Text variant="titleLarge">{eventObj?.event?.eventName}</Text>
-                            <Text variant="bodyMedium" numberOfLines={2}>{eventObj?.event?.content}</Text>
-                        </Card.Content>
-                        <Card.Actions>
-                            <Button>Pogledaj</Button>
-                        </Card.Actions>
-                    </Card>
-                    :
-                    <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <ActivityIndicator size='large' />
-                    </View>
-            }
+            <ScrollView
+                style={{flex: 1, width: '100%'}}
+            >
+                {
+                    loaded ?
+                        <Card style={{margin: 6}}>
+                            <Card.Title title={`${eventObj?.user?.firstName} ${eventObj?.user?.lastName}`}
+                                        subtitle={moment(eventObj?.event?.startDate).format("DD.MM.YYYY.")}
+                                        left={(props) => <Avatar.Image
+                                            source={getProfilePic(eventObj?.user)} {...props}/>}/>
+                            {eventObj?.image?.imagePath && <Card.Cover source={{uri: `${serverUrl}${eventObj?.image?.imagePath}`}}/>}
+                            <Card.Content style={{paddingTop: 10}}>
+                                <Text variant="titleLarge">{eventObj?.event?.eventName}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
+                                <Text variant="titleMedium">Opis</Text>
+                                <Text variant="bodyMedium">{eventObj?.event?.description}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
+                                <Text variant="titleMedium">Sadržaj</Text>
+                                <Text variant="bodyMedium">{eventObj?.event?.content.replace(/\n/g, " ")}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
+                                <Text variant="titleMedium">Početak:</Text>
+                                <Text
+                                    variant="bodyMedium">{moment(eventObj?.event?.startDate).format('DD.MM.YYYY hh:mm')}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
+                                <Text variant="titleMedium">Kraj:</Text>
+                                <Text
+                                    variant="bodyMedium">{moment(eventObj?.event?.endDate).format('DD.MM.YYYY hh:mm')}</Text>
+                                <Divider bold style={{marginVertical: 4}}/>
+
+                            </Card.Content>
+                            <Card.Actions>
+                                <Button>Pogledaj</Button>
+                            </Card.Actions>
+                        </Card>
+                        :
+                        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                            <ActivityIndicator size='large'/>
+                        </View>
+                }
+            </ScrollView>
         </ScreenBackground>
     )
 }
